@@ -32,14 +32,27 @@ jobs:
         id: app_json
         run: echo "APPS_JSON_BASE64=$(base64 -w 0 apps.json)" >> $GITHUB_OUTPUT
       
-      - name: Build and Push
+      - name: Build and Push (AMD64)
         uses: docker/build-push-action@v6
         with:
           push: true
           tags: ghcr.io/star10rd/frappe_docker/erpnext:latest
           context: .
           file: ./images/layered/Containerfile
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
+          build-args: |
+            FRAPPE_PATH=https://github.com/frappe/frappe
+            FRAPPE_BRANCH=version-15
+            APPS_JSON_BASE64=${{ steps.app_json.outputs.APPS_JSON_BASE64 }}
+      
+      - name: Build and Push (ARM64)
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          tags: ghcr.io/star10rd/frappe_docker/erpnext_arm64:latest
+          context: .
+          file: ./images/custom/Containerfile
+          platforms: linux/arm64
           build-args: |
             FRAPPE_PATH=https://github.com/frappe/frappe
             FRAPPE_BRANCH=version-15
