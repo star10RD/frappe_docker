@@ -2,7 +2,7 @@ name: Publish ERPNext image with custom apps to GHCR
 
 on:
   push:
-    branches: ['main']
+    branches: ['develop']
 
 jobs:
   build:
@@ -36,7 +36,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          tags: ghcr.io/star10rd/frappe_docker/erpnext:1.0.0
+          tags: ghcr.io/star10rd/frappe_docker/erpnext:latest
           context: .
           file: ./images/layered/Containerfile
           platforms: linux/amd64,linux/arm64
