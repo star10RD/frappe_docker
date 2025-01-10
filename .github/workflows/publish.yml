@@ -1,0 +1,61 @@
+name: Publish ERPNext image with custom apps to GHCR
+
+on:
+  push:
+    branches: ['main']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Set Custom Apps Env Variable
+        id: app_json
+        run: echo "APPS_JSON_BASE64=$(base64 -w 0 apps.json)" >> $GITHUB_OUTPUT
+      
+      - name: Build and Push
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          tags: ghcr.io/star10rd/frappe_docker/erpnext:latest
+          context: .
+          file: ./images/layered/Containerfile
+          platforms: linux/amd64,linux/arm64
+          build-args: |
+            FRAPPE_PATH=https://github.com/frappe/frappe
+            FRAPPE_BRANCH=version-15
+            APPS_JSON_BASE64=${{ steps.app_json.outputs.APPS_JSON_BASE64 }}
+        
+      # - name: Build the Docker Image
+      #   run: |
+      #     export APPS_JSON_BASE64=$(base64 -w 0 apps.json)
+      #     docker build \
+      #       --build-arg=FRAPPE_PATH=https://github.com/frappe/frappe \
+      #       --build-arg=FRAPPE_BRANCH=version-15 \
+      #       --build-arg=PYTHON_VERSION=3.11.9 \
+      #       --build-arg=NODE_VERSION=18.20.2 \
+      #       --build-arg=APPS_JSON_BASE64=$APPS_JSON_BASE64 \
+      #       --tag=ghcr.io/star10rd/erpnext_docker/erpnext:latest \
+      #       --file=images/custom/Containerfile .
+      
+      # - name: Push the image into GHCR
+      #   run: docker push ghcr.io/star10rd/erpnext_docker/erpnext:latest
