@@ -12,6 +12,54 @@
     "branch": "version-15"
   },
   {
+    "url": "https://github.com/wahni-green/genie.git",
+    "branch": "main"
+  },
+  {
+    "url": "https://github.com/D-codE-Hub/pocket_wallet.git",
+    "branch": "main"
+  },
+  {
+    "url": "https://github.com/frappe/drive",
+    "branch": "main"
+  },
+  {
+    "url": "https://github.com/frappe/builder",
+    "branch": "develop"
+  },
+  {
+    "url": "https://github.com/frappe/webshop",
+    "branch": "develop"
+  },
+  {
+    "url": "https://github.com/kittiu/doctype_permission.git",
+    "branch": "main"
+  },
+  {
+    "url": "https://github.com/shridarpatil/frappe_tinymce",
+    "branch": "master"
+  },
+  {
+    "url": "https://github.com/frappe/insights",
+    "branch": "develop"
+  },
+  {
+    "url": "https://github.com/agritheory/check_run",
+    "branch": "version-15"
+  },
+  {
+    "url": "https://github.com/nesscale-com/employee_self_service",
+    "branch": "version-15"
+  },
+  {
+    "url": "https://github.com/frappe/print_designer",
+    "branch": "main"
+  },
+  {
+    "url": "https://github.com/ganureddy/print_encrypt",
+    "branch": "main"
+  },
+  {
     "url": "https://github.com/resilient-tech/india-compliance.git",
     "branch": "version-15"
   }

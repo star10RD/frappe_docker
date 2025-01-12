@@ -30,7 +30,7 @@ jobs:
       
       - name: Set Custom Apps Env Variable
         id: app_json
-        run: echo "APPS_JSON_BASE64=$(base64 -w 0 apps.json)" >> $GITHUB_OUTPUT
+        run: echo "APPS_JSON_BASE64=$(base64 -w 0 apps.json)" >> $GITHUB_ENV
       
       - name: Build and Push (AMD64)
         uses: docker/build-push-action@v6
@@ -43,7 +43,7 @@ jobs:
           build-args: |
             FRAPPE_PATH=https://github.com/frappe/frappe
             FRAPPE_BRANCH=version-15
-            APPS_JSON_BASE64=${{ steps.app_json.outputs.APPS_JSON_BASE64 }}
+            APPS_JSON_BASE64=$APPS_JSON_BASE64
       
       - name: Build and Push (ARM64)
         uses: docker/build-push-action@v6
@@ -56,7 +56,9 @@ jobs:
           build-args: |
             FRAPPE_PATH=https://github.com/frappe/frappe
             FRAPPE_BRANCH=version-15
-            APPS_JSON_BASE64=${{ steps.app_json.outputs.APPS_JSON_BASE64 }}
+            PYTHON_VERSION=3.11.9
+            NODE_VERSION=18.20.2
+            APPS_JSON_BASE64=$APPS_JSON_BASE64
         
       # - name: Build the Docker Image
       #   run: |
